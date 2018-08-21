@@ -28,7 +28,7 @@ describe CampactUserService::Client do
         expect(initialization_options[:ssl][:verify]).to be_truthy
         expect(initialization_options[:headers]['Accept']).to eq "application/json;q=0.1"
         expect(initialization_options[:headers]['Accept-Charset']).to eq "utf-8"
-        expect(initialization_options[:headers]['User-Agent']).to eq 'campact_user_service_api'
+        expect(initialization_options[:headers]['User-Agent']).to eq 'campact_user_service'
       end.and_yield(faraday_builder)
 
       CampactUserService::Client.new(options)
@@ -55,7 +55,7 @@ describe CampactUserService::Client do
     let(:request_builder_options) { double }
     let(:response) { double }
 
-    subject { CampactUserService::Client.new(host: 'krautbuster.de') }
+    subject { CampactUserService::Client.new(host: 'demo.campact.de') }
 
     before :each do
       expect(Faraday).to receive(:new).and_yield(double(adapter: true)).and_return(connection)
@@ -94,20 +94,6 @@ describe CampactUserService::Client do
         allow(response).to receive(:status).and_return(500)
 
         subject.get_request('/foo/bar', cookies: {'foo' => 'bar', 'xyz' => 'abc'})
-      end
-
-      it 'should set TOTP authorization header' do
-        allow(response).to receive(:status).and_return(500)
-
-        totp_secret = Base32.encode('shh! a secret!').gsub('=', '')
-
-        totp = double
-        expect(totp).to receive(:now).with(true).and_return('totp_token')
-        expect(ROTP::TOTP).to receive(:new).with(totp_secret, { digest: 'sha256', digits: 6 }).and_return(totp)
-
-        expect(headers_builder).to receive(:[]=).with('authorization', 'Token api_user:totp_token')
-
-        subject.get_request('/foo/bar', topt_authorization: {user: 'api_user', secret: 'shh! a secret!'})
       end
 
       it 'should parse JSON response on successful response' do

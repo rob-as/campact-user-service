@@ -9,7 +9,7 @@ module CampactUserService
     end
 
     def user_id
-      session["user_id"]
+      session and session["user_id"]
     end
 
     private

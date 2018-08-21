@@ -17,6 +17,9 @@ module CampactUserService
       adapter = faraday_options.delete(:adapter) || Faraday.default_adapter
 
       @connection = Faraday.new(endpoint, faraday_options) do |faraday|
+        if options.has_key?(:enable_auth)
+          faraday.basic_auth options[:username], options[:password]
+        end
         faraday.adapter adapter
       end
     end
@@ -28,10 +31,6 @@ module CampactUserService
         req.options.open_timeout = TIMEOUT
         if options.has_key?(:cookies)
           req.headers['Cookie'] = format_cookies(options[:cookies])
-        end
-
-        if options[:topt_authorization]
-          req.headers['authorization'] = authorization(options[:topt_authorization])
         end
       end
 
@@ -50,7 +49,7 @@ module CampactUserService
         headers: {
           'Accept' => "application/json;q=0.1",
           'Accept-Charset' => "utf-8",
-          'User-Agent' => 'campact_user_service_api'
+          'User-Agent' => 'campact_user_service'
         }
       }
     end
@@ -71,24 +70,6 @@ module CampactUserService
         when Hash
           cookies.map {|k,v| "#{k}=#{v};" }.join
       end
-    end
-
-    def authorization(totp_options)
-      user = totp_options.fetch(:user)
-      secret = totp_options.fetch(:secret)
-
-      token = [user, auth_pass(secret)].join(':')
-
-      "Token #{token}"
-    end
-
-    def auth_pass(secret)
-      totp_secret = Base32.encode(secret).gsub('=', '')
-
-      ROTP::TOTP.new(totp_secret, {
-        digest: 'sha256',
-        digits: 6
-      }).now(true)
     end
   end
 end

@@ -1,18 +1,17 @@
 require 'campact_user_service/client'
 require 'campact_user_service/session'
 require 'campact_user_service/account'
-require 'active_support'
 
 module CampactUserService
   class << self
     def session(session_id, session_cookie_name, options)
-      client = CampactUserServiceApi::Client.new(options)
-      CampactUserServiceApi::Session.new(client, session_id, session_cookie_name)
+      client = CampactUserService::Client.new(options)
+      CampactUserService::Session.new(client, session_id, session_cookie_name)
     end
 
-    def account(session_id, session_cookie_name, options)
-      client = CampactUserServiceApi::Client.new(options)
-      CampactUserServiceApi::Account.new(client, session_id, session_cookie_name)
+    def account(user_id, session_id, session_cookie_name, options)
+      client = CampactUserService::Client.new(options)
+      CampactUserService::Account.new(client, session_id, session_cookie_name, user_id)
     end
   end
 end
