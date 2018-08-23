@@ -5,7 +5,7 @@ require 'rotp'
 
 module CampactUserService
   class Client
-    TIMEOUT = 5
+    TIMEOUT = 5.freeze
 
     attr_reader :connection, :scheme, :host, :port
 
