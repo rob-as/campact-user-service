@@ -41,8 +41,9 @@ module CampactUserService
     private
 
     def account
+      escaped_user_id = URI.escape(user_id)
       @account_info ||= client.get_request(
-        "accounts/v1/#{user_id}",
+        "accounts/v1/#{escaped_user_id}",
         cookies: {session_cookie_name => session_id}
       )
     end

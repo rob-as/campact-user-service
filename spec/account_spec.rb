@@ -36,6 +36,23 @@ describe CampactUserService::Account do
     end
   end
 
+  describe 'URI escaping' do
+    it 'should escape the user ID in any requests' do
+      malicious_user_id = "\11\15"
+      malicious_subject = CampactUserService::Account.new(
+        client, 
+        session_id, 
+        session_cookie_name, 
+        malicious_user_id
+      )
+      stub_request(:get, "https://test.com/accounts/v1/%09%0D")
+        .with(headers: {'Cookie' => "cus-session=#{session_id};"})
+        .to_return(body: '', status: 404)
+
+      expect(malicious_subject.exists?).to be_falsey
+    end
+  end
+
   describe '#name' do
     it 'should retrieve all of the names and gender of the user' do
       stub_request(:get, "https://test.com/accounts/v1/#{user_id}")
