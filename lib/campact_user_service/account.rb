@@ -10,12 +10,17 @@ module CampactUserService
     end
 
     def exists?
-      account && account['id']
+      account && account["id"]
+    end
+
+    def subscribed_to_newsletter?
+      subscriptions = account.dig("emailaddress", "subscriptions") || []
+      subscriptions.include?("newsletter")
     end
 
     def allow_prefill?
       prefill = account.dig("preferences", "prefill_forms")
-      prefill.to_s == 'allowed'
+      prefill.to_s == "allowed"
     end
 
     def name

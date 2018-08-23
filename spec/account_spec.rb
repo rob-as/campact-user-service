@@ -120,6 +120,34 @@ describe CampactUserService::Account do
     end
   end
 
+  describe '#subscribed_to_newsletter?' do
+    it 'should be true where the user is subscribed' do
+      stub_request(:get, "https://test.com/accounts/v1/#{user_id}")
+        .with(headers: {'Cookie' => "cus-session=#{session_id};"})
+        .to_return(body: { 
+          "emailaddress": {
+            "emailaddress": "foobar@example.com",
+            "subscriptions": ["newsletter"]
+          }
+        }.to_json)
+
+      expect(subject.subscribed_to_newsletter?).to be_truthy
+    end
+
+    it 'should be false where the user is not subscribed' do
+      stub_request(:get, "https://test.com/accounts/v1/#{user_id}")
+        .with(headers: {'Cookie' => "cus-session=#{session_id};"})
+        .to_return(body: { 
+          "emailaddress": {
+            "emailaddress": "foobar@example.com",
+            "subscriptions": []
+          }
+        }.to_json)
+
+      expect(subject.subscribed_to_newsletter?).to be_falsey
+    end
+  end
+
   describe '#allow_prefill?' do
     it 'should allow prefilling where the user has opted-in' do
       stub_request(:get, "https://test.com/accounts/v1/#{user_id}")
