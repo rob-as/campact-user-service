@@ -35,7 +35,7 @@ GEM
     highline (2.0.0)
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
-    json (1.8.6)
+    json (2.1.0)
     juwelier (2.4.9)
       builder
       bundler
@@ -75,8 +75,7 @@ GEM
     public_suffix (3.0.3)
     rack (2.0.5)
     rake (12.3.1)
-    rdoc (3.12.2)
-      json (~> 1.4)
+    rdoc (6.0.4)
     rotp (3.3.1)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
@@ -117,12 +116,15 @@ PLATFORMS
 
 DEPENDENCIES
   base32
-  bundler (~> 1.0)
+  bundler
   byebug
+  faraday
   faraday-detailed_logger
+  json
   juwelier
+  jwt
   pry-byebug
-  rdoc (~> 3.12)
+  rdoc
   rotp
   rspec
   shoulda
