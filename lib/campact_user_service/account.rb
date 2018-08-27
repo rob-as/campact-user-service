@@ -1,11 +1,9 @@
 module CampactUserService
   class Account
-    attr_reader :client, :session_cookie_name, :session_id, :user_id
+    attr_reader :client, :user_id
 
-    def initialize(client, session_id, session_cookie_name, user_id)
+    def initialize(client, user_id)
       @client = client
-      @session_id = session_id
-      @session_cookie_name = session_cookie_name
       @user_id = user_id
     end
 
@@ -48,8 +46,7 @@ module CampactUserService
     def account
       escaped_user_id = URI.escape(user_id)
       @account_info ||= client.get_request(
-        "accounts/v1/#{escaped_user_id}",
-        cookies: {session_cookie_name => session_id}
+        "accounts/v1/#{escaped_user_id}"
       )
     end
   end
