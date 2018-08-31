@@ -27,10 +27,7 @@ module CampactUserService
     private
 
     def session
-      @session_info ||= client.get_request(
-        '/v1/sessions', 
-        cookies: {session_cookie_name => session_id}
-      )
+      @session_info ||= (client.get_request('/v1/sessions', cookies: {session_cookie_name => session_id}) || {})
     end
   end
 end
