@@ -20,8 +20,8 @@ def instrument_connection_with_extended_logging(client, username, password)
   end
 
   instrumented_connection = Faraday.new(
-    "#{client.scheme}://#{client.host}:#{client.port}", 
-    default_options, 
+    "#{client.scheme}://#{client.host}:#{client.port}",
+    default_options,
     &faraday_builder
   )
   client.instance_variable_set(:@connection, instrumented_connection)
@@ -51,23 +51,19 @@ when '1'
     token,
     'campact-demo-session',
     {
-      scheme: 'http', 
-      host: 'demo.campact.de', 
+      scheme: 'http',
+      host: 'demo.campact.de',
       port: '10004'
     }
   )
 when '2'
-  puts "I'll need a session token"
-  token = gets.chomp
   puts "I'll need a user ID (email address). In practice I won't need this here because it can be derived through the session token"
   user_id = gets.chomp
   account = CampactUserService.account(
     user_id,
-    token,
-    'campact-demo-session',
     {
-      scheme: 'http', 
-      host: 'demo.campact.de', 
+      scheme: 'http',
+      host: 'demo.campact.de',
       port: '10003'
     }
   )
