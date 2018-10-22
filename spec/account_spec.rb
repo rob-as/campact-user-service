@@ -117,7 +117,7 @@ describe CampactUserService::Account do
         .to_return(body: {
           "emailaddress": {
             "emailaddress": "foobar@example.com",
-            "subscriptions": ["newsletter"]
+            "subscriptions": [{"type": "newsletter"}]
           }
         }.to_json)
 
@@ -130,6 +130,18 @@ describe CampactUserService::Account do
           "emailaddress": {
             "emailaddress": "foobar@example.com",
             "subscriptions": []
+          }
+        }.to_json)
+
+      expect(subject.subscribed_to_newsletter?).to be_falsey
+    end
+
+    it 'should be false where user subscription is different than newsletter' do
+      stub_request(:get, "https://test.com/account/v1/accounts/#{user_id}")
+        .to_return(body: {
+          "emailaddress": {
+            "emailaddress": "foobar@example.com",
+            "subscriptions": [{"type": "foo"}]
           }
         }.to_json)
 

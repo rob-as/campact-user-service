@@ -12,33 +12,33 @@ module CampactUserService
     end
 
     def subscribed_to_newsletter?
-      subscriptions = account.dig("emailaddress", "subscriptions") || []
-      subscriptions.include?("newsletter")
+      subscriptions = account.dig('emailaddress', 'subscriptions') || []
+      subscriptions.any? {|s| s['type'] == 'newsletter' }
     end
 
     def allow_prefill?
-      prefill = account.dig("preferences", "prefill_forms")
-      prefill.to_s == "allowed"
+      prefill = account.dig('preferences', 'prefill_forms')
+      prefill.to_s == 'allowed'
     end
 
     def name
-      account["name"]
+      account['name']
     end
 
     def email
-      account.dig("emailaddress", "emailaddress")
+      account.dig('emailaddress', 'emailaddress')
     end
 
     def address
-      account["postaladdress"]
+      account['postaladdress']
     end
 
     def preferences
-      account["preferences"]
+      account['preferences']
     end
 
     def donor_info
-      account["donorclass"]
+      account['donorclass']
     end
 
     private
