@@ -7,7 +7,6 @@ gem 'json'
 gem 'jwt'
 
 group :development do
-  gem "faraday"
   gem "byebug", ">= 0"
   gem "rspec", ">= 0"
   gem "shoulda", ">= 0"
