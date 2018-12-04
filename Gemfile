@@ -1,20 +1,20 @@
 source "https://rubygems.org"
 
-gem 'base32'
-gem 'rotp'
-gem 'faraday'
-gem 'json'
-gem 'jwt'
+gem 'base32', '~> 0.3.2'
+gem 'rotp', '~> 3.3', '>= 3.3.1'
+gem 'faraday', '>= 0.12.2', '< 1.0'
+gem 'json', '~> 2.1'
+gem 'jwt', '~> 1.5', '>= 1.5.6'
 
 group :development do
-  gem "byebug", ">= 0"
-  gem "rspec", ">= 0"
-  gem "shoulda", ">= 0"
-  gem "webmock", ">= 0"
-  gem "rdoc"
-  gem "bundler"
-  gem "juwelier"
-  gem "simplecov"
-  gem 'pry-byebug'
-  gem 'faraday-detailed_logger'
+  gem 'byebug', '>= 0'
+  gem 'rspec', '>= 0'
+  gem 'shoulda', '>= 0'
+  gem 'webmock', '>= 0'
+  gem 'rdoc', '~> 6.0', '>= 6.0.4'
+  gem 'bundler', '~> 1.16', '>= 1.16.2'
+  gem 'juwelier', '~> 2.4', '>= 2.4.9'
+  gem 'simplecov', '= 0.16.1'
+  gem 'pry-byebug', '~> 3.6'
+  gem 'faraday-detailed_logger', '~> 2.1', '>= 2.1.2'
 end
