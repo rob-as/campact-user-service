@@ -46,6 +46,18 @@ describe CampactUserService::Account do
 
       expect(malicious_subject.exists?).to be_falsey
     end
+
+    it 'should escape "/" characters' do
+      malicious_user_id = "foo@example.com/secrets"
+      malicious_subject = CampactUserService::Account.new(
+        client,
+        malicious_user_id
+      )
+      stub_request(:get, "https://test.com/account/v1/accounts/foo@example.com%2Fsecrets")
+        .to_return(body: '', status: 404)
+
+      expect(malicious_subject.exists?).to be_falsey
+    end
   end
 
   describe '#name' do
