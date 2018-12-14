@@ -2,6 +2,7 @@ require 'faraday'
 require 'json'
 require 'base32'
 require 'rotp'
+require 'campact_user_service/response_error'
 
 module CampactUserService
   class Client
@@ -24,8 +25,16 @@ module CampactUserService
       end
     end
 
-    def get_request(path, options={})
-      response = connection.get do |req|
+    %i(get delete).each do |verb|
+      define_method("#{verb}_request") do |path, options={}|
+        request(verb, path, options)
+      end
+    end
+
+    private
+
+    def request(verb, path, options)
+      response = connection.send(verb.to_sym) do |req|
         req.url path
         req.options.timeout = TIMEOUT
         req.options.open_timeout = TIMEOUT
@@ -34,14 +43,20 @@ module CampactUserService
         end
       end
 
-      if response.status == 200
-        JSON.parse(response.body)
+      case response.status
+      when 200
+        body = (response.body.nil? || response.body == '') ? '{ }' : response.body
+        JSON.parse(body)
+      when 201..299
+        true
+      when 404
+        nil
+      when 300..599
+        raise ResponseError.new(response.status, response.body)
       else
         nil
       end
     end
-
-    private
 
     def default_faraday_options
       {
