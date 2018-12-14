@@ -24,6 +24,10 @@ module CampactUserService
       session["permission_level"] == 'full'
     end
 
+    def destroy
+      client.delete_request('/v1/sessions', cookies: {session_cookie_name => session_id})
+    end
+
     private
 
     def session

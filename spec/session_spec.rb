@@ -70,4 +70,14 @@ describe CampactUserService::Session do
       expect(subject.has_hard_login_session?).to be_falsey
     end
   end
+
+  describe '#destroy' do
+    it 'should perform DELETE request' do
+      stub_request(:delete, 'https://test.com/v1/sessions')
+        .with(headers: {'Cookie' => "cus-session=#{session_id};"})
+        .to_return(body: '', status: 204)
+
+      expect(subject.destroy).to be_truthy
+    end
+  end
 end
