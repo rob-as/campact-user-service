@@ -8,10 +8,6 @@ module CampactUserService
       @session_cookie_name = session_cookie_name
     end
 
-    def exists?
-      session && session['id']
-    end
-
     def user_id
       session["user_id"]
     end
