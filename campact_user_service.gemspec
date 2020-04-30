@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["ControlShift".freeze]
-  s.date = "2020-04-29"
+  s.date = "2020-04-30"
   s.description = "Ruby wrapper for Campact User Service".freeze
   s.email = "hello@controlshiftlabs.com".freeze
   s.extra_rdoc_files = [
