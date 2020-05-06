@@ -75,6 +75,6 @@ instrument_connection_with_extended_logging(user_service.client, username, passw
 
 puts "Waiting for your command..."
 require 'pry-byebug'
-binding.pry
+binding.pry # rubocop:disable Lint/Debugger
 
 puts 'Goodbye!'
