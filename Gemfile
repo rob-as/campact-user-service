@@ -16,4 +16,5 @@ group :development do
   gem 'simplecov', '= 0.16.1'
   gem 'pry-byebug', '~> 3.6'
   gem 'faraday-detailed_logger', '~> 2.1', '>= 2.1.2'
+  gem 'rubocop'
 end

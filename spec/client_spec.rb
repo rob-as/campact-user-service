@@ -24,7 +24,7 @@ describe CampactUserService::Client do
     end
 
     it 'should use default faraday options for connection' do
-      expect(Faraday).to receive(:new) do |endpoint, initialization_options|
+      expect(Faraday).to receive(:new) do |_endpoint, initialization_options|
         expect(initialization_options[:ssl][:verify]).to be_truthy
         expect(initialization_options[:headers]['Accept']).to eq "application/json;q=0.1"
         expect(initialization_options[:headers]['Accept-Charset']).to eq "utf-8"
@@ -38,7 +38,7 @@ describe CampactUserService::Client do
       options[:faraday][:ssl] = {verify: false}
       options[:faraday][:headers] = {'Accept'=>'custom-accept-header', 'Accept-Charset'=>'custom-accept-charset-header', 'User-Agent'=>'custom-user-agent-header'}
 
-      expect(Faraday).to receive(:new) do |endpoint, initialization_options|
+      expect(Faraday).to receive(:new) do |_endpoint, initialization_options|
         expect(initialization_options[:ssl][:verify]).to be_falsey
         expect(initialization_options[:headers]['Accept']).to eq 'custom-accept-header'
         expect(initialization_options[:headers]['Accept-Charset']).to eq 'custom-accept-charset-header'
