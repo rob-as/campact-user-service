@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["ControlShift".freeze]
-  s.date = "2020-04-30"
+  s.date = "2020-06-25"
   s.description = "Ruby wrapper for Campact User Service".freeze
   s.email = "hello@controlshiftlabs.com".freeze
   s.extra_rdoc_files = [
@@ -19,8 +19,10 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = [
+    ".rubocop.yml",
     ".ruby-gemset",
     ".ruby-version",
+    ".travis.yml",
     "Gemfile",
     "LICENSE",
     "README.md",
@@ -41,43 +43,28 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/controlshift/campact_user_service".freeze
   s.licenses = ["MIT".freeze]
-  s.rubygems_version = "3.0.8".freeze
+  s.rubygems_version = "3.1.2".freeze
   s.summary = "Ruby wrapper for Campact User Service".freeze
 
   if s.respond_to? :specification_version then
     s.specification_version = 4
+  end
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<base32>.freeze, ["~> 0.3.2"])
-      s.add_runtime_dependency(%q<rotp>.freeze, ["~> 3.3", ">= 3.3.1"])
-      s.add_runtime_dependency(%q<faraday>.freeze, [">= 0.12.2", "< 1.0"])
-      s.add_runtime_dependency(%q<json>.freeze, ["~> 2.1"])
-      s.add_development_dependency(%q<byebug>.freeze, [">= 0"])
-      s.add_development_dependency(%q<rspec>.freeze, [">= 0"])
-      s.add_development_dependency(%q<shoulda>.freeze, [">= 0"])
-      s.add_development_dependency(%q<webmock>.freeze, [">= 0"])
-      s.add_development_dependency(%q<rdoc>.freeze, ["~> 6.0", ">= 6.0.4"])
-      s.add_development_dependency(%q<bundler>.freeze, ["~> 1.16", ">= 1.16.2"])
-      s.add_development_dependency(%q<juwelier>.freeze, [">= 0"])
-      s.add_development_dependency(%q<simplecov>.freeze, ["= 0.16.1"])
-      s.add_development_dependency(%q<pry-byebug>.freeze, ["~> 3.6"])
-      s.add_development_dependency(%q<faraday-detailed_logger>.freeze, ["~> 2.1", ">= 2.1.2"])
-    else
-      s.add_dependency(%q<base32>.freeze, ["~> 0.3.2"])
-      s.add_dependency(%q<rotp>.freeze, ["~> 3.3", ">= 3.3.1"])
-      s.add_dependency(%q<faraday>.freeze, [">= 0.12.2", "< 1.0"])
-      s.add_dependency(%q<json>.freeze, ["~> 2.1"])
-      s.add_dependency(%q<byebug>.freeze, [">= 0"])
-      s.add_dependency(%q<rspec>.freeze, [">= 0"])
-      s.add_dependency(%q<shoulda>.freeze, [">= 0"])
-      s.add_dependency(%q<webmock>.freeze, [">= 0"])
-      s.add_dependency(%q<rdoc>.freeze, ["~> 6.0", ">= 6.0.4"])
-      s.add_dependency(%q<bundler>.freeze, ["~> 1.16", ">= 1.16.2"])
-      s.add_dependency(%q<juwelier>.freeze, [">= 0"])
-      s.add_dependency(%q<simplecov>.freeze, ["= 0.16.1"])
-      s.add_dependency(%q<pry-byebug>.freeze, ["~> 3.6"])
-      s.add_dependency(%q<faraday-detailed_logger>.freeze, ["~> 2.1", ">= 2.1.2"])
-    end
+  if s.respond_to? :add_runtime_dependency then
+    s.add_runtime_dependency(%q<base32>.freeze, ["~> 0.3.2"])
+    s.add_runtime_dependency(%q<rotp>.freeze, ["~> 3.3", ">= 3.3.1"])
+    s.add_runtime_dependency(%q<faraday>.freeze, [">= 0.12.2", "< 1.0"])
+    s.add_runtime_dependency(%q<json>.freeze, ["~> 2.1"])
+    s.add_development_dependency(%q<byebug>.freeze, [">= 0"])
+    s.add_development_dependency(%q<rspec>.freeze, [">= 0"])
+    s.add_development_dependency(%q<shoulda>.freeze, [">= 0"])
+    s.add_development_dependency(%q<webmock>.freeze, [">= 0"])
+    s.add_development_dependency(%q<rdoc>.freeze, ["~> 6.0", ">= 6.0.4"])
+    s.add_development_dependency(%q<juwelier>.freeze, [">= 0"])
+    s.add_development_dependency(%q<simplecov>.freeze, ["= 0.16.1"])
+    s.add_development_dependency(%q<pry-byebug>.freeze, ["~> 3.6"])
+    s.add_development_dependency(%q<faraday-detailed_logger>.freeze, ["~> 2.1", ">= 2.1.2"])
+    s.add_development_dependency(%q<rubocop>.freeze, [">= 0"])
   else
     s.add_dependency(%q<base32>.freeze, ["~> 0.3.2"])
     s.add_dependency(%q<rotp>.freeze, ["~> 3.3", ">= 3.3.1"])
@@ -88,11 +75,11 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<shoulda>.freeze, [">= 0"])
     s.add_dependency(%q<webmock>.freeze, [">= 0"])
     s.add_dependency(%q<rdoc>.freeze, ["~> 6.0", ">= 6.0.4"])
-    s.add_dependency(%q<bundler>.freeze, ["~> 1.16", ">= 1.16.2"])
     s.add_dependency(%q<juwelier>.freeze, [">= 0"])
     s.add_dependency(%q<simplecov>.freeze, ["= 0.16.1"])
     s.add_dependency(%q<pry-byebug>.freeze, ["~> 3.6"])
     s.add_dependency(%q<faraday-detailed_logger>.freeze, ["~> 2.1", ">= 2.1.2"])
+    s.add_dependency(%q<rubocop>.freeze, [">= 0"])
   end
 end
 

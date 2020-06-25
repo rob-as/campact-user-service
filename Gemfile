@@ -11,7 +11,6 @@ group :development do
   gem 'shoulda', '>= 0'
   gem 'webmock', '>= 0'
   gem 'rdoc', '~> 6.0', '>= 6.0.4'
-  gem 'bundler', '~> 1.16', '>= 1.16.2'
   gem 'juwelier', git: 'https://github.com/flajann2/juwelier.git'
   gem 'simplecov', '= 0.16.1'
   gem 'pry-byebug', '~> 3.6'
