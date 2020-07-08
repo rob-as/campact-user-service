@@ -3,7 +3,7 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
 require 'campact_user_service'
 require 'faraday/detailed_logger'
 
-def instrument_connection_with_extended_logging(client, username, password)
+def instrument_connection_with_extended_logging(client)
   default_options = {
     ssl: { verify: true },
     headers: {
@@ -15,12 +15,11 @@ def instrument_connection_with_extended_logging(client, username, password)
 
   faraday_builder = ->(faraday) do
     faraday.response :detailed_logger
-    faraday.basic_auth username, password
     faraday.adapter Faraday.default_adapter
   end
 
   instrumented_connection = Faraday.new(
-    "#{client.scheme}://#{client.host}:#{client.port}",
+    "#{client.scheme}://#{client.host}",
     default_options,
     &faraday_builder
   )
@@ -33,14 +32,21 @@ end
 puts "Which user service are you going to use?\n\t1) session\n\t2) user"
 option = gets.chomp
 
-# Get username
-puts "I'll need your API credentials"
-puts "Enter your API username"
-username = gets.chomp
+# Get TOTP credentials
+username = if ENV['TOTP_USER'].nil?
+  puts "I'll need your API credentials"
+  puts "Enter your TOTP user"
+  gets.chomp
+else
+  ENV['TOTP_USER']
+end
 
-# Get password
-puts "I'll need your password now"
-password = gets.chomp
+secret = if ENV['TOTP_SECRET'].nil?
+  puts "Enter your TOTP secret"
+  gets.chomp
+else
+  ENV['TOTP_SECRET']
+end
 
 # Now connect to the right API
 user_service = case option
@@ -49,11 +55,11 @@ when '1'
   token = gets.chomp
   session = CampactUserService.session(
     token,
-    'campact-demo-session',
+    'campact-staging-session',
     {
-      scheme: 'http',
-      host: 'demo.campact.de',
-      port: '10004'
+      scheme: 'https',
+      host: 'weact-adapter.staging.campact.de',
+      topt_authorization: {user: username, secret: secret}
     }
   )
 when '2'
@@ -62,16 +68,16 @@ when '2'
   account = CampactUserService.account(
     user_id,
     {
-      scheme: 'http',
-      host: 'demo.campact.de',
-      port: '10003'
+      scheme: 'https',
+      host: 'weact-adapter.staging.campact.de',
+      topt_authorization: {user: username, secret: secret}
     }
   )
 else
   raise 'Invalid option'
 end
 
-instrument_connection_with_extended_logging(user_service.client, username, password)
+instrument_connection_with_extended_logging(user_service.client)
 
 puts "Waiting for your command..."
 require 'pry-byebug'

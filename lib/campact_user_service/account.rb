@@ -8,7 +8,7 @@ module CampactUserService
     end
 
     def exists?
-      account && account["id"]
+      account && !account["id"].nil?
     end
 
     def subscribed_to_newsletter?
@@ -35,10 +35,6 @@ module CampactUserService
 
     def preferences
       account['preferences']
-    end
-
-    def donor_info
-      account['donorclass']
     end
 
     private
