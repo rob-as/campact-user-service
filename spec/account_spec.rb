@@ -16,7 +16,7 @@ describe CampactUserService::Account do
 
   describe '#exists?' do
     it 'should return true where a valid user object is returned' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "id": "id-123"
         }.to_json)
@@ -25,7 +25,7 @@ describe CampactUserService::Account do
     end
 
     it 'should not return true where an invalid user object is returned' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "error": true
         }.to_json)
@@ -41,7 +41,7 @@ describe CampactUserService::Account do
         client,
         malicious_user_id
       )
-      stub_request(:get, "https://test.com/api/v1/accounts/%09%0D")
+      stub_request(:get, "https://test.com/v1/accounts/%09%0D")
         .to_return(body: '', status: 404)
 
       expect(malicious_subject.exists?).to be_falsey
@@ -53,7 +53,7 @@ describe CampactUserService::Account do
         client,
         malicious_user_id
       )
-      stub_request(:get, "https://test.com/api/v1/accounts/foo@example.com%2Fsecrets")
+      stub_request(:get, "https://test.com/v1/accounts/foo@example.com%2Fsecrets")
         .to_return(body: '', status: 404)
 
       expect(malicious_subject.exists?).to be_falsey
@@ -62,7 +62,7 @@ describe CampactUserService::Account do
 
   describe '#name' do
     it 'should retrieve all of the names and gender of the user' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "name": {
             "firstname": "Alice",
@@ -84,7 +84,7 @@ describe CampactUserService::Account do
 
   describe '#email' do
     it 'should retrieve the email address of the user' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "emailaddress": {
             "emailaddress": "foobar@example.com"
@@ -96,7 +96,7 @@ describe CampactUserService::Account do
     end
 
     it 'should return nil where no email address is set' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "emailaddress": {}
         }.to_json)
@@ -108,7 +108,7 @@ describe CampactUserService::Account do
 
   describe '#address' do
     it 'should retrieve the address of the user' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "postaladdress": {
             "street": "123 Fake Street",
@@ -125,7 +125,7 @@ describe CampactUserService::Account do
 
   describe '#subscribed_to_newsletter?' do
     it 'should be true where the user is subscribed' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "emailaddress": {
             "emailaddress": "foobar@example.com",
@@ -137,7 +137,7 @@ describe CampactUserService::Account do
     end
 
     it 'should be false where the user is not subscribed' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "emailaddress": {
             "emailaddress": "foobar@example.com",
@@ -149,7 +149,7 @@ describe CampactUserService::Account do
     end
 
     it 'should be false where user subscription is different than newsletter' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "emailaddress": {
             "emailaddress": "foobar@example.com",
@@ -163,7 +163,7 @@ describe CampactUserService::Account do
 
   describe '#allow_prefill?' do
     it 'should allow prefilling where the user has opted-in' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "preferences": {
             "prefill_forms": "allowed"
@@ -174,7 +174,7 @@ describe CampactUserService::Account do
     end
 
     it 'should not allow prefilling where the user has not decided' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "preferences": {
             "prefill_forms": "undecided"
@@ -185,7 +185,7 @@ describe CampactUserService::Account do
     end
 
     it 'should not allow prefilling where the user has opted out' do
-      stub_request(:get, "https://test.com/api/v1/accounts/#{user_id}")
+      stub_request(:get, "https://test.com/v1/accounts/#{user_id}")
         .to_return(body: {
           "preferences": {
             "prefill_forms": "disallowed"

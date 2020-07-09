@@ -45,7 +45,7 @@ module CampactUserService
 
     def account
       escaped_user_id = CGI.escape(user_id)
-      @account_info ||= (client.get_request("api/v1/accounts/#{escaped_user_id}") || {})
+      @account_info ||= (client.get_request("v1/accounts/#{escaped_user_id}") || {})
     end
   end
 end
